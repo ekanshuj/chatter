@@ -16,7 +16,7 @@ const HEADER = styled.header`
   padding-inline: 23px;
   background: url(${background});
   color: #badd;
-  border-bottom: 2px solid #bada55;
+  /* border-bottom: 2px solid #bada55; */
   .brand {
     h1 {
       text-transform: uppercase;
@@ -44,7 +44,7 @@ const HEADER = styled.header`
   }}}
 `;
 
-const CONTAINER = styled.div`
+const SECTION = styled.section`
   height: 91vh;
   width: 100vw;
   .channel-container {
@@ -178,18 +178,12 @@ const Chat = () => {
           }
         </div>
       </HEADER>
-      <CONTAINER>
+      <SECTION>
         <div className="channel-container">
           <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
-          {
-            currentUserChat === undefined ? (
-              <PreviewChannel />
-            )
-              : (
-                <ChatChannel currentUserChat={currentUserChat} />
-              )}
+          {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} />)}
         </div>
-      </CONTAINER>
+      </SECTION>
     </>
   )
 }

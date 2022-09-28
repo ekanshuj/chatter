@@ -11,7 +11,8 @@ class userController {
       const users = await Users.find({ _id: { $ne: id } }).select([
         "_id",
         "name",
-        "number"
+        "number",
+        "username"
       ]);
       if (users) return res.status(200).json({ users, status: true });
       else {

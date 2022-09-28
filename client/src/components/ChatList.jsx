@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RiLogoutCircleLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
 import menu from '../assets/menu.png';
@@ -29,6 +30,7 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
     border: none;
     margin: 17px 12px;
     cursor: pointer;
+    transform: rotate(90deg);
     :hover {
       text-decoration: underline red solid 3px;
       transform: scale(1.1) translateY(-7px);
@@ -118,8 +120,8 @@ const ASIDE = styled.div`
     box-shadow: 4px 6px #000000;
     div {
       h3 {
-        text-transform: uppercase;
         font-weight: bold;
+        font-size: 1.3rem;
       }
     }
   }`;
@@ -142,9 +144,9 @@ const ChatList = ({ currentUserData, userDetails }) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(undefined);
 
-  const toggleSelected = (i, name, number, _id) => {
+  const toggleSelected = (i, name, number, _id, username) => {
     setSelected(i);
-    userDetails({ name, number, _id });
+    userDetails({ name, number, _id, username });
   }
 
   const logout = () => {
@@ -162,7 +164,9 @@ const ChatList = ({ currentUserData, userDetails }) => {
       <DIVISION>
         <div className="blocker" onClick={hide}></div>
         <div className="hello__section">
-          <button onClick={logout} className="material-symbols-outlined">Logout</button>
+          <button onClick={logout}>
+            <RiLogoutCircleLine size={"2.25rem"} />
+          </button>
         </div>
         <div className='navigation'>
           <div className='menu' onClick={toggle}></div>
@@ -170,12 +174,12 @@ const ChatList = ({ currentUserData, userDetails }) => {
         </div>
         <ASIDE>
           {
-            currentUserData?.map(({ name, _id, number }, i) => {
+            currentUserData?.map(({ name, _id, number, username }, i) => {
               return (
-                <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, number, _id)}>
+                <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, number, _id, username)}>
                   <div className='avatar'>{name.charAt(0)}</div>
                   <div>
-                    <h3>{name}</h3>
+                    <h3>{name.split(" ")[0]}</h3>
                   </div>
                 </div>
               )
