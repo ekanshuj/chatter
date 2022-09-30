@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CgMoreVertical } from 'react-icons/cg';
-import { GiBalaclava } from 'react-icons/gi';
 import { ChatChannelInput } from './';
 
 
@@ -62,6 +61,10 @@ const ChatChannel = ({ currentUserChat: { name, number, username } }) => {
     setToggle((prev) => !prev);
   }
 
+  const toggleTexts = (text) => {
+    console.log(text);
+  };
+
   return (
     <DIVISION>
       <USER>
@@ -76,14 +79,13 @@ const ChatChannel = ({ currentUserChat: { name, number, username } }) => {
             <p>{name}</p>
             <p>{username}</p>
             <p>{number}</p>
-            <GiBalaclava />
           </template>
         </div>
       </USER>
       <MESSAGES>
         <h1>Users</h1>
       </MESSAGES>
-      <ChatChannelInput />
+      <ChatChannelInput toggleTexts={toggleTexts} />
     </DIVISION>
   )
 }

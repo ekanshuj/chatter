@@ -58,6 +58,7 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
   width: inherit;
   background: rgb(255, 255, 255);
   z-index: 9;
+  border: 2px solid rgba(0,0,0,0.5);
 }
 .menu {
   background : url(${menu}) no-repeat center center/cover;
@@ -77,6 +78,7 @@ const ASIDE = styled.div`
   overflow-y: scroll;
   width: inherit;
   cursor: pointer;
+  border: 2px solid rgba(0,0,0,0.5);
   -ms-overflow-style: none;
   scrollbar-width: none;
    ::-webkit-scrollbar {
