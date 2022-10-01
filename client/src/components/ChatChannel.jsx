@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CgMoreVertical } from 'react-icons/cg';
+import Axios from 'axios';
+
 import { ChatChannelInput } from './';
 
 
@@ -28,7 +30,7 @@ justify-content: space-between;
   span {
     cursor: pointer;
   }
-  .show__user__info-template {
+  template {
     display: block;
     background: #ffffff;
     box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
@@ -54,38 +56,72 @@ width: 100%;
 padding: 9px 17px;
 `;
 
-const ChatChannel = ({ currentUserChat: { name, number, username } }) => {
+const ChatChannel = ({ currentUserChat }) => {
+  const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
+  const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
   const [toggle, setToggle] = useState(false);
+  const [userData, setUserData] = useState("");
 
   const toggleHandle = () => {
     setToggle((prev) => !prev);
   }
 
-  const toggleTexts = (text) => {
-    console.log(text);
-  };
+  useEffect(() => {
+    const handleReceive = async () => {
+      const data = await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS));
+      const response = await Axios.post(URL1, {
+        from: data._id,
+        to: currentUserChat._id,
+      });
+      setUserData(response.data);
+    };
+    handleReceive();
+  }, [currentUserChat]);
 
+
+  const handleSend = async (text) => {
+    const data = await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS));
+    await Axios.post(URL2, {
+      from: data._id,
+      to: currentUserChat._id,
+      message: text
+    });
+    setUserData([...userData, { text }]);
+    console.log(userData);
+  };
+  console.log(userData);
   return (
     <DIVISION>
       <USER>
         <div className="user__name">
-          <h1>{name}</h1>
+          <h1>{currentUserChat.name}</h1>
         </div>
         <div className="user__info">
           <span onClick={toggleHandle}>
             <CgMoreVertical size={"1.75rem"} />
           </span>
-          <template className={`${toggle === true && 'show__user__info-template'}`}>
-            <p>{name}</p>
-            <p>{username}</p>
-            <p>{number}</p>
-          </template>
+          {
+            toggle && (
+              <template>
+                <p>{currentUserChat.name}</p>
+                <p>{currentUserChat.username}</p>
+                <p>{currentUserChat.number}</p>
+              </template>
+            )
+          }
         </div>
       </USER>
       <MESSAGES>
         <h1>Users</h1>
+        {/* {
+          userData.map((data, i) => {
+            return (
+              <p key={i}>{data.message}</p>
+            )
+          })
+        } */}
       </MESSAGES>
-      <ChatChannelInput toggleTexts={toggleTexts} />
+      <ChatChannelInput handleSend={handleSend} />
     </DIVISION>
   )
 }

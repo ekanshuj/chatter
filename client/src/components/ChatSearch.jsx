@@ -9,9 +9,9 @@ const DIVISION = styled.div`
   padding : 7px 3px;
 `;
 
-const INPUT = styled.input.attrs(props => ({
+const INPUT = styled.input.attrs({
   type: "search",
-}))`
+})`
 flex : 1;
 padding : 9px;
 ::placeholder,
@@ -37,7 +37,8 @@ const ChatSearch = () => {
 
   return (
     <DIVISION>
-      <INPUT placeholder="search"
+      <INPUT
+        placeholder="search"
         name="search"
         id="search"
         value={value}

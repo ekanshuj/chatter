@@ -54,60 +54,6 @@ const SECTION = styled.section`
   }
 `;
 
-
-// const options = {
-//   background: {
-//     color: {
-//       value: "#000000",
-//     },
-//   },
-//   fpsLimit: 120,
-//   interactivity: {
-//     modes: {
-//       push: {
-//         quantity: 4,
-//       },
-//       repulse: {
-//         distance: 200,
-//         duration: 0.4,
-//       },
-//     },
-//   },
-//   particles: {
-//     color: {
-//       value: "#ffffff",
-//     },
-//     // move: {
-//     //   directions: "none",
-//     //   enable: true,
-//     //   outModes: {
-//     //     default: "bounce",
-//     //   },
-//     //   random: true,
-//     //   speed: 1,
-//     //   straight: false,
-//     // },
-//     number: {
-//       density: {
-//         enable: true,
-//         area: 1000,
-//       },
-//       value: 100,
-//     },
-//     opacity: {
-//       value: 0.5,
-//     },
-//     shape: {
-//       type: "square",
-//     },
-//     size: {
-//       value: { min: 1, max: 11 },
-//     },
-//   },
-//   detectRetina: true,
-//   fullScreen: false
-// };
-
 const Chat = () => {
   const navigate = useNavigate();
   const URL = 'http://localhost:5000/api/v1/users';
@@ -115,46 +61,40 @@ const Chat = () => {
   const [currentUserData, setCurrentUserData] = useState(undefined);
   const [currentUserChat, setCurrentUserChat] = useState(undefined);
 
-  const fetchData = async () => {
-    if (!localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) navigate("/");
-    else {
-      try {
-        setCurrentUser(await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)));
-      } catch (er) {
-        console.log(er);
-      }
-    }
-  };
-
-  const getData = async () => {
-    if (currentUser) {
-      try {
-        const { data } = await Axios.get(`${URL}/${currentUser._id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            "authToken": currentUser.token
-          }
-        });
-        if (data.status === true) {
-          const { users } = data;
-          setCurrentUserData(users);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) navigate("/");
+      else {
+        try {
+          setCurrentUser(await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)));
+        } catch (er) {
+          console.log(er);
         }
-      } catch (er) {
-        console.log(er);
       }
     };
-  }
-
-  useEffect(() => {
     fetchData();
   }, []);
   useEffect(() => {
+    const getData = async () => {
+      if (currentUser) {
+        try {
+          const { data } = await Axios.get(`${URL}/${currentUser._id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              "authToken": currentUser.token
+            }
+          });
+          if (data.status === true) {
+            const { users } = data;
+            setCurrentUserData(users);
+          }
+        } catch (er) {
+          console.log(er);
+        }
+      };
+    }
     getData();
   }, [currentUser]);
-
-  // const particlesInit = useCallback(async (engine) => {
-  //   await loadFull(engine);
-  // }, []);
 
   const getUserDetails = (details) => {
     setCurrentUserChat(details);

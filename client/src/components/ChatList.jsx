@@ -167,7 +167,7 @@ const ChatList = ({ currentUserData, userDetails }) => {
         <div className="blocker" onClick={hide}></div>
         <div className="hello__section">
           <button onClick={logout}>
-            <RiLogoutCircleLine size={"2.25rem"} />
+            <RiLogoutCircleLine size="2.25rem" />
           </button>
         </div>
         <div className='navigation'>

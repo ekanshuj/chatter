@@ -13,25 +13,19 @@ display: flex;
 justify-content: center;
 align-items: center;
 position: relative;
-.selector {
-  position: absolute;
-  bottom: 72px;
-  left: 9px;
-  display: none;
-}
-.toggle__selector {
-  display: block;
-}
 .picker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  button {
+  .picker__btn {
+    display: flex;
     background: none;
     border: none;
     padding: 1px 5px;
     margin-inline: 7px;
     cursor: pointer;
+    .EmojiPickerReact {
+      position: absolute;
+      bottom: 72px;
+      left: 9px;
+    }
   }}`;
 
 const FORM = styled.form`
@@ -48,7 +42,9 @@ flex: 1;
   }
 `;
 
-const INPUT = styled.input`
+const INPUT = styled.input.attrs({
+  type: "text",
+})`
 height: 5.5vh;
 width: 100%;
 outline: none;
@@ -56,41 +52,45 @@ font-size: 1.55rem;
 border: none;
 border: 2px solid rgba(0,0,0,0.2);
 padding: 0rem 0.5rem;
-  ::placeholder {
+  ::placeholder,
+  ::-webkit-input-placeholder {
     font-size: 1.1rem;
-  }
-`;
+  }`;
 
-const ChatChannelInput = ({ toggleTexts }) => {
+const ChatChannelInput = ({ handleSend }) => {
   const [togglePicker, SetTogglePicker] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const handleToggle = () => {
     SetTogglePicker(prev => !prev);
+  };
+
+  const addEmoji = (obj) => {
+    let emojiVal = text;
+    emojiVal += obj.emoji;
+    setText(emojiVal);
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (text.length > 0) {
-      toggleTexts(text);
+      handleSend(text);
       setText('');
     }
-  }
+  };
 
   return (
     <DIVISION>
-      <div className={`selector ${togglePicker === true && 'toggle__selector'}`}>
-        <EmojiPicker />
-      </div>
       <div className="picker">
-        <button onClick={handleToggle}>
-          <BsFillEmojiWinkFill size={'1.85rem'} />
-        </button>
+        <span className='picker__btn'>
+          <BsFillEmojiWinkFill onClick={handleToggle} size="1.85rem" />
+          {togglePicker && <EmojiPicker onEmojiClick={addEmoji} />}
+        </span>
       </div>
-      <FORM className="input" onSubmit={(event) => handleSubmit(event)}>
-        <INPUT type="text" placeholder='Type to Send Message...' onChange={(event) => setText(event.target.value)} value={text} />
-        <button onClick={(event) => handleSubmit(event)}>
-          <GrSend size={'2rem'} />
+      <FORM className="input" onSubmit={handleSubmit}>
+        <INPUT placeholder='Type to Send Message...' onChange={(e) => setText(e.target.value)} value={text} />
+        <button type="submit">
+          <GrSend size="2rem" />
         </button>
       </FORM>
     </DIVISION>

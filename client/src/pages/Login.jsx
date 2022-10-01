@@ -46,9 +46,9 @@ const CONTAINER = styled.div`
   }
 
 `
-const FORM = styled.form.attrs(props => ({
+const FORM = styled.form.attrs({
   action: "#"
-}))`
+})`
 .name,
 .username,
 .number,
@@ -149,7 +149,6 @@ const Login = () => {
       const URL = 'http://localhost:5000/api/v1/users';
 
       const { data } = await Axios.post(`${URL}/login`, { username, password });
-      const { token } = data;
       if (data.status === true) {
         localStorage.setItem(import.meta.env.VITE_USER_CREDENTIALS, JSON.stringify(data.user));
         navigate("/chat");
