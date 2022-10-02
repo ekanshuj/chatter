@@ -54,13 +54,31 @@ const MESSAGES = styled.section`
 height: 77vh;
 width: 100%;
 padding: 9px 17px;
+.messages {
+  width: 100%;
+  .message {
+    display: flex;
+    align-items: center;
+    div {
+      margin-inline: 5px;
+      font-size: 1.45rem;
+      padding: 3px 0px;
+    }
+  }
+  .sender {
+      justify-content: flex-end;
+    }
+  .receiver {
+      justify-content: flex-start;
+    }
+}
 `;
 
-const ChatChannel = ({ currentUserChat }) => {
+const ChatChannel = ({ currentUserChat, currentUser }) => {
   const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
   const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
   const [toggle, setToggle] = useState(false);
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState([]);
 
   const toggleHandle = () => {
     setToggle((prev) => !prev);
@@ -68,28 +86,26 @@ const ChatChannel = ({ currentUserChat }) => {
 
   useEffect(() => {
     const handleReceive = async () => {
-      const data = await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS));
       const response = await Axios.post(URL1, {
-        from: data._id,
+        from: currentUser._id,
         to: currentUserChat._id,
       });
-      setUserData(response.data);
+      const { data: { messages } } = response;
+      setUserData(messages);
     };
     handleReceive();
   }, [currentUserChat]);
 
 
   const handleSend = async (text) => {
-    const data = await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS));
     await Axios.post(URL2, {
-      from: data._id,
+      from: currentUser._id,
       to: currentUserChat._id,
       message: text
     });
-    setUserData([...userData, { text }]);
-    console.log(userData);
+    setUserData([...userData, { sender: true, message: text }]);
   };
-  console.log(userData);
+
   return (
     <DIVISION>
       <USER>
@@ -112,14 +128,15 @@ const ChatChannel = ({ currentUserChat }) => {
         </div>
       </USER>
       <MESSAGES>
-        <h1>Users</h1>
-        {/* {
-          userData.map((data, i) => {
+        <div className="messages">
+          {userData?.map((data, i) => {
             return (
-              <p key={i}>{data.message}</p>
+              <div className={`message ${data.sender === true ? 'sender' : 'receiver'}`}>
+                <div key={i}>{data.message}</div>
+              </div>
             )
-          })
-        } */}
+          })}
+        </div>
       </MESSAGES>
       <ChatChannelInput handleSend={handleSend} />
     </DIVISION>

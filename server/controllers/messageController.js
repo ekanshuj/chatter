@@ -12,14 +12,15 @@ class messageController {
           { users: { $in: [to] } }
         ]
       }).sort({ createdAt: 1 });
-      const data = messageArr.map((mess) => {
+
+      const messages = messageArr.map((mess) => {
         return {
           sender: mess.source.toString() === from,
           message: mess.message.chat
         }
       });
-      // if (!data) return res.status(401).json({ status: false, message: "Something went Wrong" });
-      return res.status(200).json({ status: true, data });
+      if (!messages) return res.status(401).json({ status: false, message: "Something went Wrong" });
+      return res.status(200).json({ status: true, messages });
     } catch (er) {
       console.log(er);
       return res.status(501).json({ message: 'Something went Wrong', error: er, status: false });
