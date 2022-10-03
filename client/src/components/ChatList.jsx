@@ -9,14 +9,14 @@ import { ChatSearch } from './';
 const DIVISION = styled.div`
 background : rgb(255, 255, 255);
 width : 25rem;
-height : 91vh;
+height : 100vh;
 font-weight : bold;
 font-size : 1.355rem;
 box-shadow : 7px 9px 5px -1px #edd1d1;
 .hello__section {
   height: inherit;
   position: absolute;
-  top: 87px;
+  top: 0px;
   left: 0;
   z-index: 99;
   width: 5rem;
@@ -32,8 +32,6 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
     cursor: pointer;
     :hover {
       text-decoration: underline red solid 3px;
-      transform: scale(1.1) translateY(-7px);
-      transition: 0.3s;
     }}}
 .blocker {
   display: none;
@@ -53,7 +51,7 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
   padding : 7px;
   position: fixed;
   left: 0px;
-  top: 87px;
+  top: 0px;
   width: inherit;
   background: rgb(255, 255, 255);
   z-index: 9;
@@ -71,7 +69,7 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
 const ASIDE = styled.div`
   padding : 9px;
   position: fixed;
-  top: 135px;
+  top: 65px;
   left: 0px;
   bottom: 0px;
   overflow-y: scroll;

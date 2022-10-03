@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { BsFillEmojiWinkFill } from 'react-icons/bs';
-import { GrSend } from 'react-icons/gr';
 import EmojiPicker from 'emoji-picker-react';
 
 const DIVISION = styled.div`
 width: 100%;
+height: 4.7rem;
 padding: 3px 7px;
 background: rgb(255, 255, 255);
 border-top: 2px solid rgba(0,0,0,0.5);
@@ -33,25 +33,17 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex: 1;
-  button {
-    background: none;
-    border: none;
-    padding: 1px 5px;
-    margin-inline: 7px;
-    cursor: pointer;
-  }
 `;
 
 const INPUT = styled.input.attrs({
   type: "text",
 })`
-height: 5.5vh;
 width: 100%;
 outline: none;
 font-size: 1.55rem;
 border: none;
 border: 2px solid rgba(0,0,0,0.2);
-padding: 0rem 0.5rem;
+padding: 0.75rem 0.5rem;
   ::placeholder,
   ::-webkit-input-placeholder {
     font-size: 1.1rem;
@@ -89,9 +81,6 @@ const ChatChannelInput = ({ handleSend }) => {
       </div>
       <FORM className="input" onSubmit={handleSubmit}>
         <INPUT placeholder='Type to Send Message...' onChange={(e) => setText(e.target.value)} value={text} />
-        <button type="submit">
-          <GrSend size="2rem" />
-        </button>
       </FORM>
     </DIVISION>
   )

@@ -4,54 +4,17 @@ import Axios from 'axios';
 import styled from 'styled-components';
 
 import { ChatChannel, ChatList, PreviewChannel } from '../components';
-import background from '../assets/background.svg';
-import { socials } from '../config/config';
-
 import { io } from 'socket.io-client';
 const client = "http://localhost:5000";
 
-const HEADER = styled.header`
-  height: 9vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding-inline: 23px;
-  background: url(${background});
-  color: #badd;
-  /* border-bottom: 2px solid #bada55; */
-  .brand {
-    h1 {
-      text-transform: uppercase;
-      font-size: 2rem;
-      /* color: ghostwhite; */
-      float: left;
-      padding: 9px;
-  }}
-  hr {
-    width: 90rem;
-    height: 3px;
-    background: #000000;
-  }
-  .credits__links {
-      float: right;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .credit__links-icon {
-        aspect-ratio: 1;
-        width: 41px;
-        margin-inline: 5px;
-        a {
-          filter: invert(100);
-  }}}
-`;
 
 const SECTION = styled.section`
   height: 91vh;
   width: 100vw;
+  height: 100vh;
   .channel-container {
     height: 100%;
+    width: 100%;
     display: grid;
     grid-template-columns: 25rem 1fr;
   }
@@ -111,30 +74,12 @@ const Chat = () => {
   }
 
   return (
-    <>
-      <HEADER>
-        <div className="brand">
-          <h1>prototype-a</h1>
-        </div>
-        <div className="credits__links">
-          {
-            socials?.map(({ url, icon }, i) => (
-              <div className='credit__links-icon' key={i}>
-                <a href={url}>
-                  {icon}
-                </a>
-              </div>
-            ))
-          }
-        </div>
-      </HEADER>
-      <SECTION>
-        <div className="channel-container">
-          <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
-          {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
-        </div>
-      </SECTION>
-    </>
+    <SECTION>
+      <div className="channel-container">
+        <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
+        {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
+      </div>
+    </SECTION>
   )
 }
 

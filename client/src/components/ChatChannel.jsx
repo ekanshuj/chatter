@@ -7,7 +7,7 @@ import { ChatChannelInput } from './';
 
 
 const DIVISION = styled.div`
-height: 91vh;
+height: 100vh;
 width: 100%;
 /* background: #000000; */
 `;
@@ -18,7 +18,7 @@ box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
 -webkit-box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
 -moz-box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
 margin-inline: 11px;
-padding: 17px 9px;
+padding: 14px 9px;
 border-radius: 0px 0px 4px 4px;
 /* margin: 0px 2px 5px 2px; */
 /* background: #e0e0e0; */
@@ -50,8 +50,13 @@ justify-content: space-between;
 }
 `;
 
+const CONTAINER = styled.div`
+height: calc(100% - 4rem);
+display: grid;
+grid-template-rows: auto 4.5rem;
+`;
+
 const MESSAGES = styled.section`
-height: 77vh;
 width: 100%;
 padding: 9px 17px;
 .messages {
@@ -67,9 +72,23 @@ padding: 9px 17px;
   }
   .sender {
       justify-content: flex-end;
+      margin: 3px 0px;
+      div {
+        background: gray;
+        color: white;
+        padding: 7px 17px;
+        border-radius: 17px;
+      }
     }
   .receiver {
       justify-content: flex-start;
+      margin: 3px 0px;
+      div {
+        background: gray;
+        color: white;
+        padding: 7px 17px;
+        border-radius: 17px;
+      }
     }
 }
 `;
@@ -128,7 +147,7 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
     <DIVISION>
       <USER>
         <div className="user__name">
-          <h1>{currentUserChat.name}</h1>
+          <h1>{currentUserChat.name.split(' ').slice(0, 1)}</h1>
         </div>
         <div className="user__info">
           <span onClick={toggleHandle}>
@@ -145,18 +164,20 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
           }
         </div>
       </USER>
-      <MESSAGES>
-        <div className="messages">
-          {userData?.map((data, i) => {
-            return (
-              <div key={i} className={`message ${data.sender === true ? 'sender' : 'receiver'}`}>
-                <div>{data.message}</div>
-              </div>
-            )
-          })}
-        </div>
-      </MESSAGES>
-      <ChatChannelInput handleSend={handleSend} />
+      <CONTAINER>
+        <MESSAGES>
+          <div className="messages">
+            {userData?.map((data, i) => {
+              return (
+                <div key={i} className={`message ${data.sender === true ? 'sender' : 'receiver'}`}>
+                  <div>{data.message}</div>
+                </div>
+              )
+            })}
+          </div>
+        </MESSAGES>
+        <ChatChannelInput handleSend={handleSend} />
+      </CONTAINER>
     </DIVISION>
   )
 }

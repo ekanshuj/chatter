@@ -43,15 +43,10 @@ io.on("connection", (socket) => {
     const userSocket = users.get(data.to);
     userSocket && socket.to(userSocket).emit("receive__messages", data.message);
   });
-  // console.log(`Socket initialized ${socket.id}`);
 
   // socket.on('disconnect', () => {
-  //   console.log(`user disconnected : ${socket.id}`);
-  //   socket.removeAllListeners('join_room');
-  //   socket.removeAllListeners('send_msg');
+  //   socket.removeAllListeners('user');
+  //   socket.removeAllListeners('send__messages');
   //   io.removeAllListeners('connection');
   // });
 });
-
-// const map = global.onlineUsers = new Map();
-// console.log(map);
