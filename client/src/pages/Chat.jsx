@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import styled from 'styled-components';
@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import { ChatChannel, ChatList, PreviewChannel } from '../components';
 import background from '../assets/background.svg';
 import { socials } from '../config/config';
+
+import { io } from 'socket.io-client';
+const client = "http://localhost:5000";
 
 const HEADER = styled.header`
   height: 9vh;
@@ -56,6 +59,7 @@ const SECTION = styled.section`
 
 const Chat = () => {
   const navigate = useNavigate();
+  const socket = useRef();
   const URL = 'http://localhost:5000/api/v1/users';
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentUserData, setCurrentUserData] = useState(undefined);
@@ -74,6 +78,12 @@ const Chat = () => {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io(client, { transports: ['websocket'] });
+      socket.current.emit("user", currentUser._id);
+    };
+  }, [currentUser])
   useEffect(() => {
     const getData = async () => {
       if (currentUser) {
@@ -121,7 +131,7 @@ const Chat = () => {
       <SECTION>
         <div className="channel-container">
           <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
-          {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} />)}
+          {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
         </div>
       </SECTION>
     </>

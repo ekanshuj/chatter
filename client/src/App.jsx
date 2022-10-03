@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 
 import { Home, Login, Signup, Chat } from './pages';
 
-
 const App = () => {
   return (
     <div className='app'>

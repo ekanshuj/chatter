@@ -30,7 +30,6 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
     border: none;
     margin: 17px 12px;
     cursor: pointer;
-    transform: rotate(90deg);
     :hover {
       text-decoration: underline red solid 3px;
       transform: scale(1.1) translateY(-7px);

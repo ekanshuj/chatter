@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const { Server } = require('socket.io');
+
 const cors = require('cors');
 
 const dotenv = require('dotenv');
@@ -21,4 +23,35 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => { });
+const server = app.listen(PORT, () => { });
+
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    // methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+global.users = new Map();
+io.on("connection", (socket) => {
+  socket.on("user", (id) => {
+    users.set(id, socket.id)
+  });
+  socket.on("send__messages", (data) => {
+    const userSocket = users.get(data.to);
+    userSocket && socket.to(userSocket).emit("receive__messages", data.message);
+  });
+  // console.log(`Socket initialized ${socket.id}`);
+
+  // socket.on('disconnect', () => {
+  //   console.log(`user disconnected : ${socket.id}`);
+  //   socket.removeAllListeners('join_room');
+  //   socket.removeAllListeners('send_msg');
+  //   io.removeAllListeners('connection');
+  // });
+});
+
+// const map = global.onlineUsers = new Map();
+// console.log(map);

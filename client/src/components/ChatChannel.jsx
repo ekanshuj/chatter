@@ -74,11 +74,12 @@ padding: 9px 17px;
 }
 `;
 
-const ChatChannel = ({ currentUserChat, currentUser }) => {
+const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
   const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
   const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
   const [toggle, setToggle] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [activeData, setActiveData] = useState(null);
 
   const toggleHandle = () => {
     setToggle((prev) => !prev);
@@ -98,13 +99,30 @@ const ChatChannel = ({ currentUserChat, currentUser }) => {
 
 
   const handleSend = async (text) => {
+    await socket.current.emit("send__messages", {
+      to: currentUserChat._id,
+      from: currentUser._id,
+      message: text,
+    })
     await Axios.post(URL2, {
       from: currentUser._id,
       to: currentUserChat._id,
       message: text
     });
-    setUserData([...userData, { sender: true, message: text }]);
+    setUserData(userData => [...userData, { sender: true, message: text }]);
   };
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("receive__messages", (data) => {
+        setActiveData({ message: data })
+      });
+    }
+  }, [])
+
+  useEffect(() => {
+    activeData && setUserData(prev => [...prev, activeData])
+  }, [activeData])
 
   return (
     <DIVISION>
@@ -131,8 +149,8 @@ const ChatChannel = ({ currentUserChat, currentUser }) => {
         <div className="messages">
           {userData?.map((data, i) => {
             return (
-              <div className={`message ${data.sender === true ? 'sender' : 'receiver'}`}>
-                <div key={i}>{data.message}</div>
+              <div key={i} className={`message ${data.sender === true ? 'sender' : 'receiver'}`}>
+                <div>{data.message}</div>
               </div>
             )
           })}
