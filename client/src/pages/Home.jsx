@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 import background from '../assets/background.svg';
+import undraw from '../assets/undraw.svg';
 
 const bounce = keyframes`
  0% {
@@ -28,18 +29,18 @@ const bounce = keyframes`
   }`;
 
 const DIVISION = styled.div`
-  height: 100vh;
-  width: 100vw;
   background: url(${background});
   color: #badd;
   .container {
-    height: 100%;
-    width: 100%;
-    display: grid;
-    place-items: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
     h1 {
       text-transform: uppercase;
-      font-size: 5rem;
+      font-size: 4rem;
     }
     .go {
     button {
@@ -69,7 +70,8 @@ const Home = () => {
   return (
     <DIVISION>
       <div className="container">
-        <h1>prototype-a</h1>
+        <h1>Chatter</h1>
+        <img src={undraw} alt="undraw" />
         <Link to="/signup">
           <div className="go">
             <button>Get Started</button>

@@ -1,7 +1,10 @@
 const { sign, verify } = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const Users = require('../models/userModel');
-const KEY = 'jaishriram';
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './config/.env' });
+const KEY = process.env.JWT_KEY;
 
 const createToken = (id) => {
   return sign({ id }, KEY)

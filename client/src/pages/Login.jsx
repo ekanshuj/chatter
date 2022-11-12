@@ -8,9 +8,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const DIVISION = styled.div`
-  display: grid;
-  place-items: center;
-  place-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
   height: 100vh;
   width: 100vw;
   background: rgb(250, 250, 250);
@@ -34,21 +36,22 @@ const DIVISION = styled.div`
   }}}
 `
 const CONTAINER = styled.div`
-  padding: 20px;
+  padding: 19px;
   background: rgb(255, 255, 255);
-  width: 500px;
+  width: 401px;
   box-shadow: 7px 9px 5px -1px #edd1d1;
   border-radius: 7px;
 
   .head {
-    padding: 25px 20px;
+    padding: 17px 0px;
     font-weight: bold;  
   }
 
 `
-const FORM = styled.form.attrs({
+const FORM = styled.form.attrs(props => ({
   action: "#"
-})`
+}))`
+  padding: 7px 0px;
 .name,
 .username,
 .number,
@@ -58,7 +61,6 @@ const FORM = styled.form.attrs({
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 10px 20px;
 }
 
 .span {
@@ -67,11 +69,11 @@ const FORM = styled.form.attrs({
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: bolder;
-  color: rgb(191, 191, 191);
+  color: rgba(0,0,0,0.7);
 }
 
 .inputs {
-  padding: 16px 15px;
+  padding: 11px 7px;
   width: 100%;
   font-size: 15px;
   border-radius: 5px;
@@ -79,7 +81,7 @@ const FORM = styled.form.attrs({
   border: 1px solid rgb(191, 191, 191);
 
   ::placeholder {
-  color: rgb(191, 191, 191);
+  color: rgba(0,0,0,0.4);
   }
 
 }
