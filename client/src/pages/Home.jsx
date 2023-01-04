@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import { SocialIcon } from 'react-social-icons';
 
-import background from '../assets/background.svg';
-import undraw from '../assets/undraw.svg';
+import love from '../assets/love.svg';
 
 const bounce = keyframes`
  0% {
@@ -28,57 +28,87 @@ const bounce = keyframes`
     top: 0em;
   }`;
 
-const DIVISION = styled.div`
-  background: url(${background});
-  color: #badd;
-  .container {
+const MAIN = styled.main`
+  /* background: black; */
   height: 100vh;
   width: 100vw;
+  position: relative;
+  `;
+
+const HEADER = styled.header`
+  width: 100%;
+  background: green;
+  height: 12rem;
+  div {
+  max-width: 65rem;
+  margin-inline: auto;
+  padding-top: 3rem;
+  }
+`;
+
+const SECTION = styled.section`
+  max-width: 60rem;
+  margin-inline: auto;
+  height: 35rem;
+  background: blue;
+  margin-top: -75px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-direction: column;
-    h1 {
-      text-transform: uppercase;
-      font-size: 4rem;
-    }
-    .go {
-    button {
-      border: 1px solid white;
-      padding: 0.7rem 1.45rem;
-      font-size: 1.75rem;
-      line-height: 1.75rem;
-      background: transparent;
-      cursor: pointer;
-      display: inline-block;
-      margin: 0 0.3em 0.3em 0;
-      color: #bada55;
-      text-align: center;
-      transition: all 0.2s;
-      animation: ${bounce} 5s infinite linear;
-      position: relative;
-      &:hover {
-        letter-spacing: 0.4rem;
-        transition-duration: 0.3  s;
-        border-width: 3px 1px;
-        border-bottom-color: #badd;
-        border-top-color: #badd;
-      }
-    }}}`;
+  button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: 900;
+    font-size: 1.1rem;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+const FOOTER = styled.footer`
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  max-width: 65rem;
+  margin-inline: auto;
+  padding: 2px 0px;
+  .tech {
+    font-weight: bold;
+  }
+`;
 
 const Home = () => {
   return (
-    <DIVISION>
-      <div className="container">
-        <h1>Chatter</h1>
-        <img src={undraw} alt="undraw" />
+    <MAIN>
+      <HEADER>
+        <div>
+          <h2>Chatter - A Realtime Chat Application</h2>
+        </div>
+      </HEADER>
+      <SECTION>
+        <img src={love} />
         <Link to="/signup">
-          <div className="go">
-            <button>Get Started</button>
-          </div>
+          <button>Get Started</button>
         </Link>
-      </div>
-    </DIVISION>
+      </SECTION>
+      <FOOTER>
+        <div>
+          <p className='tech'>Mongodb | Express | React.js | Node.js</p>
+        </div>
+        <SocialIcon
+          target='_blank'
+          url="https://github.com/ekanshuj/react-chat-application"
+          bgColor='transparent'
+          fgColor='black' />
+      </FOOTER>
+    </MAIN>
   )
 }
 
