@@ -1,12 +1,11 @@
 const asyncHandler = require('express-async-handler');
 const Users = require('../models/userModel');
 const bcrypt = require('bcryptjs');
-const { createToken } = require('../middleware/authJWT');
-
+const { createToken } = require('../middlewares/authJWT');
 
 class userController {
   static showUsers = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.body;
     try {
       const users = await Users.find({ _id: { $ne: id } }).select([
         "_id",
@@ -14,13 +13,13 @@ class userController {
         "number",
         "username"
       ]);
-      if (users) return res.status(200).json({ users, status: true });
+      if (users) return res.status(200).json({ status: true, users });
       else {
-        return res.status(404).json({ message: "No Users Found", status: false });
+        return res.status(404).json({ status: false, message: "No Users Found" });
       }
-    } catch (er) {
-      return res.status(501).json({ message: 'Something went wrong', error: er, status: false });
-      // console.log(er);
+    } catch (err) {
+      console.log(err);
+      return res.status(501).json({ status: false, error: err.message });
     }
   });
 
@@ -28,30 +27,23 @@ class userController {
     const { username, name, number, password } = req.body;
     try {
       const user = await Users.findOne({ username });
-      if (user) return res.status(401).json({ message: 'User already exists', status: false });
+      if (user) return res.status(401).json({ status: false, message: "User already exists" });
       const pass = await bcrypt.hash(password, 10);
       const User = await Users.create({
-        username,
-        name,
-        number,
-        password: pass
+        username, name, number, password: pass
       });
-      if (User) {
-        return res.status(201).json({
-          message: "User created successfully",
-          status: true,
-          user: {
-            _id: User._id,
-            username: User.username,
-            name: User.name,
-            number: User.number,
-            token: createToken(User._id)
-          },
-        });
-      }
-    } catch (er) {
-      return res.status(501).json({ error: er.message, status: false });
-      console.log(er);
+      if (User) return res.status(200).json({
+        status: true, message: "User created successfully", user: {
+          _id: User._id,
+          username: User.username,
+          name: User.name,
+          number: User.number,
+          token: createToken(User._id)
+        }
+      })
+    } catch (err) {
+      console.log(err);
+      return res.status(501).json({ status: false, error: err.message });
     }
   });
 
@@ -59,14 +51,11 @@ class userController {
     const { username, password } = req.body;
     try {
       const user = await Users.findOne({ username });
-      if (!user) return res.status(401).json({ message: 'User not found', status: false });
+      if (!user) return res.status(404).json({ status: false, message: "User not found" });
       const pass = await bcrypt.compare(password, user.password);
       if (user && pass) {
-        // const token = createToken(user._id);
-        res.status(201).json({
-          message: "User logged in successfully",
-          status: true,
-          user: {
+        return res.status(200).json({
+          status: true, message: "User authenticated successfully", user: {
             _id: user._id,
             username: user.username,
             name: user.name,
@@ -74,15 +63,12 @@ class userController {
             token: createToken(user._id)
           }
         });
-        // .cookie("authToken", token, {
-        //   httpOnly: true,
-        // })
       }
-    } catch (er) {
-      return res.status(501).json({ error: er, status: false });
-      console.log(er);
+    } catch (err) {
+      console.log(err);
+      return res.status(501).json({ status: false, error: err.message });
     }
   });
-}
+};
 
 module.exports = userController;
