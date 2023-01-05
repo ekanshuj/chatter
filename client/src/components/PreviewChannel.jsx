@@ -1,21 +1,35 @@
 import styled from 'styled-components';
-import welcome from '../assets/welcome.mp4';
+import chat from '../assets/chat.svg';
 
 const DIVISION = styled.div`
 .gif {
   height: 91vh;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  img {
+    aspect-ratio: 1;
+    width: 30rem;
+  }
+  p {
+    background: rgba(0,0,0,0.2);
+    padding: 4px 9px;
+    border-radius: 10px;
+    font-weight: semi-bold;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+  }
 }
 `;
 
 
 const PreviewChannel = () => {
-
   return (
     <DIVISION>
       <div className="gif">
-        <video src={welcome} autoPlay loop></video>
+        <img src={chat} />
+        <p>Select a chat to start messaging</p>
       </div>
     </DIVISION>
   )

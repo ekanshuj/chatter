@@ -4,15 +4,15 @@ import { RiLogoutCircleLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
 import menu from '../assets/menu.png';
+import logout from '../assets/logout.svg';
 import { ChatSearch } from './';
 
-const DIVISION = styled.div`
+const ASIDE = styled.div`
 background : rgb(255, 255, 255);
-width : 25rem;
-height : 100vh;
+width : 22rem;
+height: 100vh;
 font-weight : bold;
 font-size : 1.355rem;
-box-shadow : 7px 9px 5px -1px #edd1d1;
 .hello__section {
   height: inherit;
   position: absolute;
@@ -24,15 +24,24 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
   background : rgb(255, 255, 255);
   align-items: flex-start;
   justify-content: center;
-  padding: 11px 0px;
-  button {
-    background: transparent;
-    border: none;
-    margin: 17px 12px;
-    cursor: pointer;
-    :hover {
-      text-decoration: underline red solid 3px;
-    }}}
+  padding-top: 20px;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    img {
+    aspect-ratio: 1;
+    width: 18px;
+    margin: 5px 12px;
+    cursor : pointer;
+  }
+  p {
+    color : red;
+    font-size: 0.9rem;
+  }
+  }
+}
 .blocker {
   display: none;
   position: fixed;
@@ -44,57 +53,53 @@ box-shadow : 7px 9px 5px -1px #edd1d1;
   background: rgba(0,0,0,0.2);
   z-index: 99;
 }
-.navigation {
+`;
+
+const SECTION = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: inherit;
+  .navigation {
   display : flex;
   align-items : center;
   justify-content : center;
-  padding : 7px;
+  padding : 3px 7px;
   position: fixed;
   left: 0px;
   top: 0px;
   width: inherit;
-  background: rgb(255, 255, 255);
   z-index: 9;
-  border: 2px solid rgba(0,0,0,0.5);
-}
-.menu {
-  background : url(${menu}) no-repeat center center/cover;
-  aspect-ratio: 1;
-  width: 25px;
-  cursor : pointer;
-  margin: 0px 9px;
-  z-index: 999;
-}`;
-
-const ASIDE = styled.div`
-  padding : 9px;
+  border-right: 2px solid rgba(0,0,0,0.5);
+  .menu {
+    background : url(${menu}) no-repeat center center/cover;
+    aspect-ratio: 1;
+    width: 25px;
+    cursor : pointer;
+    margin: 0px 9px;
+    z-index: 999;
+  }}
+  .users {
+    border-right: 2px solid rgba(0,0,0,0.5);
+    width: inherit;
   position: fixed;
-  top: 65px;
+  top: 58px;
   left: 0px;
   bottom: 0px;
+  z-index : 9;
   overflow-y: scroll;
-  width: inherit;
   cursor: pointer;
-  border: 2px solid rgba(0,0,0,0.5);
   -ms-overflow-style: none;
   scrollbar-width: none;
    ::-webkit-scrollbar {
-    /* width: 10px; */
+    width: 10px;
     display: none;
   }
-  /*
-  ::-webkit-scrollbar-track {
-    background: #dddddd;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #db1d5c;
-  } */
   .column {
-    margin : 9px 3px;
-    padding : 7px;
-    font-size : 1rem;
-    border: 1px solid #ddd;
-    box-shadow: 4px 6px #888888;
+    padding : 5px 7px;
+    font-size : 0.9rem;
+    letter-spacing : 1px;
     display: flex;
     align-items: center;
     .avatar {
@@ -123,7 +128,7 @@ const ASIDE = styled.div`
         font-size: 1.3rem;
       }
     }
-  }`;
+  }}`;
 
 const toggle = () => {
   const helloSection = document.querySelector('.hello__section');
@@ -148,7 +153,7 @@ const ChatList = ({ currentUserData, userDetails }) => {
     userDetails({ name, number, _id, username });
   }
 
-  const logout = () => {
+  const handleLogout = () => {
     if (localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) {
       localStorage.removeItem(import.meta.env.VITE_USER_CREDENTIALS);
       navigate("/");
@@ -160,19 +165,20 @@ const ChatList = ({ currentUserData, userDetails }) => {
 
   return (
     <>
-      <DIVISION>
+      <ASIDE>
         <div className="blocker" onClick={hide}></div>
         <div className="hello__section">
-          <button onClick={logout}>
-            <RiLogoutCircleLine size="2.25rem" />
-          </button>
+          <div>
+            <img onClick={handleLogout} src={logout} />
+            <p>Log Out</p>
+          </div>
         </div>
-        <div className='navigation'>
-          <div className='menu' onClick={toggle}></div>
-          <ChatSearch />
-        </div>
-        <ASIDE>
-          {
+        <SECTION>
+          <div className='navigation'>
+            <div className='menu' onClick={toggle}></div>
+            <ChatSearch />
+          </div>
+          {/* {
             currentUserData?.map(({ name, _id, number, username }, i) => {
               return (
                 <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, number, _id, username)}>
@@ -183,9 +189,171 @@ const ChatList = ({ currentUserData, userDetails }) => {
                 </div>
               )
             })
-          }
-        </ASIDE>
-      </DIVISION >
+          } */}
+          <div className="users">
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+            <div className="column">
+              <div className="avatar">E</div>
+              <div>
+                <h3>
+                  Ekanshu
+                </h3>
+              </div>
+            </div>
+          </div>
+        </SECTION>
+      </ASIDE >
     </>
   )
 }
@@ -197,7 +365,7 @@ export default ChatList
 
 
 
-// const Division = styled.div`
+// const ASIDE = styled.div`
 //   display : flex;
 //   align-items : center;
 //   justify-content : center;
@@ -235,12 +403,12 @@ export default ChatList
 //   }
 
 //   return (
-//     <Division>
+//     <ASIDE>
 //       <Input placeholder="search"
 //         name="search"
 //         id="search"
 //         value={value}
 //         onChange={toggleChange} />
-//     </Division>
+//     </ASIDE>
 //   )
 // }

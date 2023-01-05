@@ -7,21 +7,20 @@ import { ChatChannelInput } from './';
 
 
 const DIVISION = styled.div`
-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
 width: 100%;
-/* background: #000000; */
 `;
 
 const USER = styled.header`
+width: inherit;
 background: #ffffff;
 box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
 -webkit-box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
 -moz-box-shadow: 0px 7px 7px -1px rgba(0,0,0,0.4);
-margin-inline: 11px;
-padding: 14px 9px;
-border-radius: 0px 0px 4px 4px;
-/* margin: 0px 2px 5px 2px; */
-/* background: #e0e0e0; */
+padding: 11px 9px;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -52,8 +51,8 @@ justify-content: space-between;
 
 const CONTAINER = styled.div`
 height: calc(100% - 4rem);
-display: grid;
-grid-template-rows: auto 4.5rem;
+width: 100%;
+background: greenyellow;
 `;
 
 const MESSAGES = styled.section`
@@ -93,61 +92,63 @@ padding: 9px 17px;
 }
 `;
 
-const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
-  const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
-  const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
+const ChatChannel = () => {
+  // const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
+  // const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
+  // const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
   const [toggle, setToggle] = useState(false);
-  const [userData, setUserData] = useState([]);
-  const [activeData, setActiveData] = useState(null);
+  // const [userData, setUserData] = useState([]);
+  // const [activeData, setActiveData] = useState(null);
 
   const toggleHandle = () => {
     setToggle((prev) => !prev);
   }
 
-  useEffect(() => {
-    const handleReceive = async () => {
-      const response = await Axios.post(URL1, {
-        from: currentUser._id,
-        to: currentUserChat._id,
-      });
-      const { data: { messages } } = response;
-      setUserData(messages);
-    };
-    handleReceive();
-  }, [currentUserChat]);
+  // useEffect(() => {
+  //   const handleReceive = async () => {
+  //     const response = await Axios.post(URL1, {
+  //       from: currentUser._id,
+  //       to: currentUserChat._id,
+  //     });
+  //     const { data: { messages } } = response;
+  //     setUserData(messages);
+  //   };
+  //   handleReceive();
+  // }, [currentUserChat]);
 
 
-  const handleSend = async (text) => {
-    await socket.current.emit("send__messages", {
-      to: currentUserChat._id,
-      from: currentUser._id,
-      message: text,
-    })
-    await Axios.post(URL2, {
-      from: currentUser._id,
-      to: currentUserChat._id,
-      message: text
-    });
-    setUserData(userData => [...userData, { sender: true, message: text }]);
-  };
+  // const handleSend = async (text) => {
+  //   await socket.current.emit("send__messages", {
+  //     to: currentUserChat._id,
+  //     from: currentUser._id,
+  //     message: text,
+  //   })
+  //   await Axios.post(URL2, {
+  //     from: currentUser._id,
+  //     to: currentUserChat._id,
+  //     message: text
+  //   });
+  //   setUserData(userData => [...userData, { sender: true, message: text }]);
+  // };
 
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on("receive__messages", (data) => {
-        setActiveData({ message: data })
-      });
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (socket.current) {
+  //     socket.current.on("receive__messages", (data) => {
+  //       setActiveData({ message: data })
+  //     });
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    activeData && setUserData(prev => [...prev, activeData])
-  }, [activeData])
+  // useEffect(() => {
+  //   activeData && setUserData(prev => [...prev, activeData])
+  // }, [activeData])
 
   return (
     <DIVISION>
       <USER>
         <div className="user__name">
-          <h1>{currentUserChat.name.split(' ').slice(0, 1)}</h1>
+          <h1>Ekanshu</h1>
+          {/* <h1>{currentUserChat.name.split(' ').slice(0, 1)}</h1> */}
         </div>
         <div className="user__info">
           <span onClick={toggleHandle}>
@@ -156,9 +157,12 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
           {
             toggle && (
               <template>
-                <p>{currentUserChat.name}</p>
+                <p>Ekanshu</p>
+                <p>ekanshuj</p>
+                <p>0000000000</p>
+                {/* <p>{currentUserChat.name}</p>
                 <p>{currentUserChat.username}</p>
-                <p>{currentUserChat.number}</p>
+                <p>{currentUserChat.number}</p> */}
               </template>
             )
           }
@@ -167,17 +171,19 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
       <CONTAINER>
         <MESSAGES>
           <div className="messages">
-            {userData?.map((data, i) => {
+            {/* {userData?.map((data, i) => {
               return (
                 <div key={i} className={`message ${data.sender === true ? 'sender' : 'receiver'}`}>
                   <div>{data.message}</div>
                 </div>
               )
-            })}
+            })} */}
+            <div>hello</div>
           </div>
         </MESSAGES>
-        <ChatChannelInput handleSend={handleSend} />
       </CONTAINER>
+      {/* <ChatChannelInput handleSend={handleSend} /> */}
+      <ChatChannelInput />
     </DIVISION>
   )
 }

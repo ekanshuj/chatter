@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  /* overflow-x: hidden; */
+}
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 

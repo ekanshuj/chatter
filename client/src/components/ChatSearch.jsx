@@ -17,10 +17,11 @@ padding : 9px;
 ::placeholder,
 ::-webkit-input-placeholder {
   color : rgb(61, 60, 60);
-  font-size : 1rem;
+  font-size : 0.9rem;
+  letter-spacing : 1px;
 }
 &:focus  {
-background : rgb(255, 255, 255);
+outline: 1px solid blue;
 }
 background : #e7e7e7;
 border: none;
@@ -38,7 +39,7 @@ const ChatSearch = () => {
   return (
     <DIVISION>
       <INPUT
-        placeholder="search"
+        placeholder="Search"
         name="search"
         id="search"
         value={value}

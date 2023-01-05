@@ -9,14 +9,11 @@ const client = "http://localhost:5000";
 
 
 const SECTION = styled.section`
-  height: 91vh;
   width: 100vw;
   height: 100vh;
   .channel-container {
-    height: 100%;
-    width: 100%;
     display: grid;
-    grid-template-columns: 25rem 1fr;
+    grid-template-columns: 22rem 1fr;
   }
 `;
 
@@ -28,19 +25,19 @@ const Chat = () => {
   const [currentUserData, setCurrentUserData] = useState(undefined);
   const [currentUserChat, setCurrentUserChat] = useState(undefined);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) navigate("/");
-      else {
-        try {
-          setCurrentUser(await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)));
-        } catch (er) {
-          console.log(er);
-        }
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (!localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) navigate("/");
+  //     else {
+  //       try {
+  //         setCurrentUser(await JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)));
+  //       } catch (er) {
+  //         console.log(er);
+  //       }
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   useEffect(() => {
     if (currentUser) {
       socket.current = io(client, { transports: ['websocket'] });
@@ -78,6 +75,7 @@ const Chat = () => {
       <div className="channel-container">
         <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
         {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
+        {/* <ChatChannel /> */}
       </div>
     </SECTION>
   )
