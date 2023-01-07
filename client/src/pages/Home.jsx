@@ -5,31 +5,8 @@ import { SocialIcon } from 'react-social-icons';
 
 import love from '../assets/love.svg';
 
-const bounce = keyframes`
- 0% {
-    top: 0em;
-  }
-  40% {
-    top: 0em;
-  }
-  43% {
-    top: -0.9em;
-  }
-  46% {
-    top: 0em;
-  }
-  48% {
-    top: -0.4em;
-  }
-  50% {
-    top: 0em;
-  }
-  100% {
-    top: 0em;
-  }`;
-
 const MAIN = styled.main`
-  /* background: black; */
+  background: black;
   height: 100vh;
   width: 100vw;
   position: relative;
@@ -37,20 +14,25 @@ const MAIN = styled.main`
 
 const HEADER = styled.header`
   width: 100%;
-  background: green;
+  background: #43729D;
   height: 12rem;
   div {
-  max-width: 65rem;
+  max-width: 62rem;
   margin-inline: auto;
   padding-top: 3rem;
-  }
+  h2 {
+    font-size: 1.09rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: bold;
+  }}
 `;
 
 const SECTION = styled.section`
   max-width: 60rem;
   margin-inline: auto;
   height: 35rem;
-  background: blue;
+  background: black;
   margin-top: -75px;
   border-radius: 5px;
   display: flex;
@@ -60,10 +42,12 @@ const SECTION = styled.section`
   button {
     background: none;
     border: none;
-    color: white;
-    font-weight: 900;
+    color: gray;
+    font-weight: bold;
     font-size: 1.1rem;
+    letter-spacing: 2px;
     text-decoration: underline;
+    text-decoration-thickness: 2px;
     cursor: pointer;
   }
 `;
@@ -76,11 +60,14 @@ const FOOTER = styled.footer`
   position: absolute;
   inset-inline: 0;
   bottom: 0;
-  max-width: 65rem;
+  max-width: 62rem;
   margin-inline: auto;
   padding: 2px 0px;
   .tech {
     font-weight: bold;
+    color: gray;
+    letter-spacing: 1px;
+    font-size: 0.93rem;
   }
 `;
 
@@ -106,7 +93,7 @@ const Home = () => {
           target='_blank'
           url="https://github.com/ekanshuj/react-chat-application"
           bgColor='transparent'
-          fgColor='black' />
+          fgColor='gray' />
       </FOOTER>
     </MAIN>
   )

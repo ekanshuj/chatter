@@ -52,7 +52,7 @@ justify-content: space-between;
 const CONTAINER = styled.div`
 height: calc(100% - 4rem);
 width: 100%;
-background: greenyellow;
+background: #297373;
 `;
 
 const MESSAGES = styled.section`

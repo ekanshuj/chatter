@@ -74,8 +74,8 @@ const Chat = () => {
     <SECTION>
       <div className="channel-container">
         <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
-        {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
-        {/* <ChatChannel /> */}
+        {/* {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)} */}
+        <ChatChannel />
       </div>
     </SECTION>
   )
