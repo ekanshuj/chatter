@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
-import { BsFillEmojiWinkFill } from 'react-icons/bs';
+import { BsEmojiSmile } from 'react-icons/bs';
 import EmojiPicker from 'emoji-picker-react';
 
 const DIVISION = styled.div`
 width: 100%;
-background: rgb(255, 255, 255);
 display: flex;
 justify-content: center;
 align-items: center;
-padding: 3px 0px;
+padding: 7px;
 .picker {
+    /* filter: invert(100); */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,6 +34,8 @@ flex: 1;
 const INPUT = styled.input.attrs({
   type: "text",
 })`
+background: #2B2C32;
+color: #CCD1D1;
 width: 100%;
 outline: none;
 border: none;
@@ -71,7 +73,7 @@ const ChatChannelInput = ({ handleSend }) => {
   return (
     <DIVISION>
       <div className="picker">
-        <BsFillEmojiWinkFill onClick={handleToggle} size="1.85rem" />
+        <BsEmojiSmile onClick={handleToggle} size="1.85rem" />
         {togglePicker && <EmojiPicker onEmojiClick={addEmoji} />}
       </div>
       <FORM className="input" onSubmit={handleSubmit}>

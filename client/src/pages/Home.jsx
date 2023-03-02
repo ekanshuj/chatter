@@ -6,7 +6,7 @@ import { SocialIcon } from 'react-social-icons';
 import love from '../assets/love.svg';
 
 const MAIN = styled.main`
-  background: black;
+  background: #1C1C25;
   height: 100vh;
   width: 100vw;
   position: relative;
@@ -31,18 +31,19 @@ const HEADER = styled.header`
 const SECTION = styled.section`
   max-width: 60rem;
   margin-inline: auto;
-  height: 35rem;
-  background: black;
+  height: 30rem;
+  background: #1C1C25;
   margin-top: -75px;
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border: 2px solid white;
   button {
     background: none;
     border: none;
-    color: gray;
+    color: #ffff;
     font-weight: bold;
     font-size: 1.1rem;
     letter-spacing: 2px;
@@ -91,7 +92,7 @@ const Home = () => {
         </div>
         <SocialIcon
           target='_blank'
-          url="https://github.com/ekanshuj/react-chat-application"
+          url="https://github.com/ekanshuj/chatter"
           bgColor='transparent'
           fgColor='gray' />
       </FOOTER>

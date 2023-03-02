@@ -10,7 +10,6 @@ class userController {
       const users = await Users.find({ _id: { $ne: id } }).select([
         "_id",
         "name",
-        "number",
         "username"
       ]);
       if (users) return res.status(200).json({ status: true, users });
@@ -24,20 +23,19 @@ class userController {
   });
 
   static registerUsers = asyncHandler(async (req, res) => {
-    const { username, name, number, password } = req.body;
+    const { username, name, password } = req.body;
     try {
       const user = await Users.findOne({ username });
       if (user) return res.status(401).json({ status: false, message: "User already exists" });
       const pass = await bcrypt.hash(password, 10);
       const User = await Users.create({
-        username, name, number, password: pass
+        username, name, password: pass
       });
       if (User) return res.status(200).json({
         status: true, message: "User created successfully", user: {
           _id: User._id,
           username: User.username,
           name: User.name,
-          number: User.number,
           token: createToken(User._id)
         }
       })
@@ -59,7 +57,6 @@ class userController {
             _id: user._id,
             username: user.username,
             name: user.name,
-            number: user.number,
             token: createToken(user._id)
           }
         });

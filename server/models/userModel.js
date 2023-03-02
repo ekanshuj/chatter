@@ -12,12 +12,6 @@ const userModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  number: {
-    type: Number,
-    required: true,
-    unique: true,
-    max: 10
-  },
   password: {
     type: String,
     required: true,

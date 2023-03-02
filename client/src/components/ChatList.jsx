@@ -8,20 +8,21 @@ import logout from '../assets/logout.svg';
 import { ChatSearch } from './';
 
 const ASIDE = styled.div`
-background : rgb(255, 255, 255);
-width : 22rem;
-height: 100vh;
+background : #1C1C25;
+color: #ffff;
+width : 21rem;
+min-height: 100vh;
 font-weight : bold;
 font-size : 1.355rem;
-.hello__section {
-  height: inherit;
+.navigate {
+  height: 100vh;
   position: absolute;
   top: 0px;
   left: 0;
   z-index: 99;
   width: 5rem;
   display: none;
-  background : rgb(255, 255, 255);
+  background : rgba(0,0,0,0.8);
   align-items: flex-start;
   justify-content: center;
   padding-top: 20px;
@@ -32,6 +33,7 @@ font-size : 1.355rem;
     flex-direction: column;
     img {
     aspect-ratio: 1;
+    filter: invert(100);
     width: 18px;
     margin: 5px 12px;
     cursor : pointer;
@@ -50,7 +52,7 @@ font-size : 1.355rem;
   bottom: 0;
   right: 0;
   content: ' ';
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.5);
   z-index: 99;
 }
 `;
@@ -61,6 +63,7 @@ const SECTION = styled.div`
   justify-content: center;
   flex-direction: column;
   width: inherit;
+  height: 100%;
   .navigation {
   display : flex;
   align-items : center;
@@ -71,9 +74,10 @@ const SECTION = styled.div`
   top: 0px;
   width: inherit;
   z-index: 9;
-  border-right: 2px solid rgba(0,0,0,0.5);
+  border-right: 1px solid #505055;
   .menu {
     background : url(${menu}) no-repeat center center/cover;
+    filter: invert(100);
     aspect-ratio: 1;
     width: 25px;
     cursor : pointer;
@@ -81,7 +85,7 @@ const SECTION = styled.div`
     z-index: 999;
   }}
   .users {
-    border-right: 2px solid rgba(0,0,0,0.5);
+    border-right: 1px solid #505055;
     width: inherit;
   position: fixed;
   top: 58px;
@@ -102,13 +106,14 @@ const SECTION = styled.div`
     letter-spacing : 1px;
     display: flex;
     align-items: center;
+    margin: 5px 0px;
     .avatar {
-      font-size: 1.5rem;
-      border: 2px solid black;
+      font-size: 1rem;
+      border: 2px solid #999B9F;
+      color: #999B9F;
       border-radius: 50%;
-      padding: 7px;
       aspect-ratio: 1;
-      width: 3.315rem;
+      width: 2.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -117,28 +122,33 @@ const SECTION = styled.div`
       margin-inline: 3px;
       h3 {
         font-weight: 500;
+        color: #999B9F;
       }
     }
   }
   .selected {
-    box-shadow: 4px 6px #000000;
+    background : #3F3F5D;
+    .avatar {
+      border: 2px solid #ffff;
+      color: #ffff;
+    }
     div {
       h3 {
         font-weight: bold;
-        font-size: 1.3rem;
+        color: #ffff;
       }
     }
   }}`;
 
 const toggle = () => {
-  const helloSection = document.querySelector('.hello__section');
+  const helloSection = document.querySelector('.navigate');
   const blocker = document.querySelector('.blocker');
   helloSection.style.display = 'flex';
   blocker.style.display = 'block';
 }
 
 const hide = () => {
-  const helloSection = document.querySelector('.hello__section');
+  const helloSection = document.querySelector('.navigate');
   const blocker = document.querySelector('.blocker');
   helloSection.style.display = 'none';
   blocker.style.display = 'none';
@@ -148,9 +158,9 @@ const ChatList = ({ currentUserData, userDetails }) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(undefined);
 
-  const toggleSelected = (i, name, number, _id, username) => {
+  const toggleSelected = (i, name, _id, username) => {
     setSelected(i);
-    userDetails({ name, number, _id, username });
+    userDetails({ name, _id, username });
   }
 
   const handleLogout = () => {
@@ -167,7 +177,7 @@ const ChatList = ({ currentUserData, userDetails }) => {
     <>
       <ASIDE>
         <div className="blocker" onClick={hide}></div>
-        <div className="hello__section">
+        <div className="navigate">
           <div>
             <img onClick={handleLogout} src={logout} />
             <p>Log Out</p>
@@ -178,179 +188,19 @@ const ChatList = ({ currentUserData, userDetails }) => {
             <div className='menu' onClick={toggle}></div>
             <ChatSearch />
           </div>
-          {/* {
-            currentUserData?.map(({ name, _id, number, username }, i) => {
-              return (
-                <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, number, _id, username)}>
-                  <div className='avatar'>{name.charAt(0)}</div>
-                  <div>
-                    <h3>{name.split(" ")[0]}</h3>
+          <div className='users'>
+            {
+              currentUserData?.filter(user => user.username !== (JSON.parse(localStorage.getItem("ClientX"))).username)?.map(({ name, _id, username }, i) => {
+                return (
+                  <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, _id, username)}>
+                    <div className='avatar'>{name.charAt(0)}</div>
+                    <div>
+                      <h3>{name.split(" ")[0]}</h3>
+                    </div>
                   </div>
-                </div>
-              )
-            })
-          } */}
-          <div className="users">
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
-            <div className="column">
-              <div className="avatar">E</div>
-              <div>
-                <h3>
-                  Ekanshu
-                </h3>
-              </div>
-            </div>
+                )
+              })
+            }
           </div>
         </SECTION>
       </ASIDE >

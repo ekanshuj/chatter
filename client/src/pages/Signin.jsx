@@ -15,39 +15,40 @@ const DIVISION = styled.div`
   flex-wrap: wrap;
   height: 100vh;
   width: 100vw;
-  background: rgb(250, 250, 250);
-
+  background: #1C1C25;
   .bottom {
   margin: 10px 0px;
   padding: 15px 10px;
-
+  color: #ffff;
   span {
   font-size: 1.255rem;
   }
   button {
-  border: none;
+    border: none;
   background: none;
   font-size: 1.235rem;
   margin-inline: 7px;
   font-weight: bold;
-
-  :hover {
+  color: #ffff;
   text-decoration: underline;
-  }}}
+  cursor: pointer;
+  }}
 `
 const CONTAINER = styled.div`
   padding: 19px;
-  background: rgb(255, 255, 255);
-  width: 401px;
-  box-shadow: 7px 9px 5px -1px #edd1d1;
+  background: #1C1C25;
+  width: 400px;
   border-radius: 7px;
-
+  border: 2px solid #edd1d1;
   .head {
     padding: 17px 0px;
-    font-weight: bold;  
+    font-weight: bold;
+    h1 {
+      color: #ffff;
+      text-decoration: underline;
+    }
   }
-
-`
+  `;
 const FORM = styled.form.attrs(props => ({
   action: "#"
 }))`
@@ -69,7 +70,7 @@ const FORM = styled.form.attrs(props => ({
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: bolder;
-  color: rgba(0,0,0,0.7);
+  color: #fff;
 }
 
 .inputs {
@@ -77,38 +78,31 @@ const FORM = styled.form.attrs(props => ({
   width: 100%;
   font-size: 15px;
   border-radius: 5px;
-  outline-color: gray;
-  border: 1px solid rgb(191, 191, 191);
-
+  background: #2B2C32;
+  color: #CCD1D1;
+  outline: none;
   ::placeholder {
-  color: rgba(0,0,0,0.4);
+  color: #CCD1D1;
   }
-
 }
 `
 const CONTROL = styled.div`
-  padding: 25px 20px;
+  padding: 25px 0px;
 
 button {
   width: 100%;
   padding: 10px 0px;
-  border: 2px solid #09363f;
-  background: transparent;
   font-size: 1.05rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
   border-radius: 7px;
   cursor: pointer;
-
-  :hover {
-  background: #09363f;
-  color: ghostwhite;
-  }
+  background: #CCD1D1;
 }
 `
 
-const Login = () => {
+const Signin = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     username: '',
@@ -149,8 +143,9 @@ const Login = () => {
     if (handleValidate()) {
       const { username, password } = form;
       const URL = 'http://localhost:5000/api/v1/users';
+      // const URL = 'https://chatter-backend-qu7r.onrender.com/api/v1/users';
 
-      const { data } = await Axios.post(`${URL}/login`, { username, password });
+      const { data } = await Axios.post(`${URL}/signin`, { username, password });
       if (data.status === true) {
         localStorage.setItem(import.meta.env.VITE_USER_CREDENTIALS, JSON.stringify(data.user));
         navigate("/chat");
@@ -201,4 +196,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Signin

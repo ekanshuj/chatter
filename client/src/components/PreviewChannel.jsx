@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import chat from '../assets/chat.svg';
 
 const DIVISION = styled.div`
+background: #1C1C25;
 .gif {
   height: 91vh;
   display: flex;
@@ -13,12 +14,14 @@ const DIVISION = styled.div`
     width: 30rem;
   }
   p {
-    background: rgba(0,0,0,0.2);
+    color: #ffff;
+    text-decoration: underline;
+    text-decoration-color: gray;
     padding: 4px 9px;
     border-radius: 10px;
     font-weight: semi-bold;
     letter-spacing: 1px;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 `;
