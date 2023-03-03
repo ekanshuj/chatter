@@ -28,22 +28,14 @@ border: none;
 border-radius : 3px;
 `;
 
-const ChatSearch = () => {
-  const [value, setValue] = useState('');
-
-  const toggleChange = (elem) => {
-    elem.preventDefault();
-    setValue(elem.target.value);
-  }
-
+const ChatSearch = ({ textVal }) => {
   return (
     <DIVISION>
       <INPUT
         placeholder="Search"
         name="search"
         id="search"
-        value={value}
-        onChange={toggleChange} />
+        onChange={(e) => textVal(e.target.value)} />
     </DIVISION >
   )
 }

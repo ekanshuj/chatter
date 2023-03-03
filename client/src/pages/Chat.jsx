@@ -12,7 +12,6 @@ const client = "http://localhost:5000";
 const SECTION = styled.section`
   max-width: 100vw;
   height: 100vh;
-  /* overflow: hidden; */
   .channel-container {
     display: grid;
     grid-template-columns: 21rem 1fr;
@@ -76,7 +75,7 @@ const Chat = () => {
   return (
     <SECTION>
       <div className="channel-container">
-        <ChatList currentUserData={currentUserData} userDetails={getUserDetails} />
+        <ChatList currentUserData={currentUserData} userDetails={getUserDetails} currentUser={currentUser} />
         {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
         {/* <ChatChannel /> */}
       </div>

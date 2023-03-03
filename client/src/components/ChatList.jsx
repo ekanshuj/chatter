@@ -11,7 +11,7 @@ const ASIDE = styled.div`
 background : #1C1C25;
 color: #ffff;
 width : 21rem;
-min-height: 100vh;
+height: 100vh;
 font-weight : bold;
 font-size : 1.355rem;
 .navigate {
@@ -58,20 +58,15 @@ font-size : 1.355rem;
 `;
 
 const SECTION = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 8.1% 83.9% 8%;
   width: inherit;
-  height: 100%;
+  height: inherit;
   .navigation {
   display : flex;
   align-items : center;
   justify-content : center;
   padding : 3px 7px;
-  position: fixed;
-  left: 0px;
-  top: 0px;
   width: inherit;
   z-index: 9;
   border-right: 1px solid #505055;
@@ -85,12 +80,8 @@ const SECTION = styled.div`
     z-index: 999;
   }}
   .users {
-    border-right: 1px solid #505055;
-    width: inherit;
-  position: fixed;
-  top: 58px;
-  left: 0px;
-  bottom: 0px;
+  border-right: 1px solid #505055;
+  width: inherit;
   z-index : 9;
   overflow-y: scroll;
   cursor: pointer;
@@ -138,7 +129,29 @@ const SECTION = styled.div`
         color: #ffff;
       }
     }
-  }}`;
+  }}
+  .profile {
+    border-right: 1px solid #505055;
+    width: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div {
+      width: inherit;
+      margin-inline: 3px;
+      text-align: center;
+      background: black;
+      color: #CCD1D1;
+      padding: 9px 0px;
+      border-radius: 3px;
+      span {
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: 2.1px;
+      }
+    }
+  }
+  `;
 
 const toggle = () => {
   const helloSection = document.querySelector('.navigate');
@@ -146,7 +159,6 @@ const toggle = () => {
   helloSection.style.display = 'flex';
   blocker.style.display = 'block';
 }
-
 const hide = () => {
   const helloSection = document.querySelector('.navigate');
   const blocker = document.querySelector('.blocker');
@@ -154,9 +166,11 @@ const hide = () => {
   blocker.style.display = 'none';
 }
 
-const ChatList = ({ currentUserData, userDetails }) => {
+
+const ChatList = ({ currentUserData, userDetails, currentUser }) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(undefined);
+  const [searchedChat, setSearchedChat] = useState('');
 
   const toggleSelected = (i, name, _id, username) => {
     setSelected(i);
@@ -173,6 +187,12 @@ const ChatList = ({ currentUserData, userDetails }) => {
     }
   };
 
+  const textVal = (text) => {
+    setSearchedChat(text);
+  };
+  const filteredChat = searchedChat.length > 0 && currentUserData?.filter(currentUserData => currentUserData?.name.toLowerCase().includes(searchedChat.toLowerCase()));
+  console.log(filteredChat);
+
   return (
     <>
       <ASIDE>
@@ -186,11 +206,11 @@ const ChatList = ({ currentUserData, userDetails }) => {
         <SECTION>
           <div className='navigation'>
             <div className='menu' onClick={toggle}></div>
-            <ChatSearch />
+            <ChatSearch textVal={textVal} />
           </div>
           <div className='users'>
             {
-              currentUserData?.filter(user => user.username !== (JSON.parse(localStorage.getItem("ClientX"))).username)?.map(({ name, _id, username }, i) => {
+              currentUserData?.filter(user => user.username !== (JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS))).username)?.map(({ name, _id, username }, i) => {
                 return (
                   <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, _id, username)}>
                     <div className='avatar'>{name.charAt(0)}</div>
@@ -202,6 +222,11 @@ const ChatList = ({ currentUserData, userDetails }) => {
               })
             }
           </div>
+          <div className='profile'>
+            <div>
+              <span>{currentUser?.name} | @{currentUser?.username}</span>
+            </div>
+          </div>
         </SECTION>
       </ASIDE >
     </>
@@ -209,56 +234,3 @@ const ChatList = ({ currentUserData, userDetails }) => {
 }
 
 export default ChatList
-
-
-
-
-
-
-// const ASIDE = styled.div`
-//   display : flex;
-//   align-items : center;
-//   justify-content : center;
-//   flex : 1;
-//   padding : 7px 3px;
-// `;
-
-// const Input = styled.input.attrs(props => ({
-//   type: "search",
-// }))`
-// flex : 1;
-// padding : 9px;
-
-// ::placeholder,
-// ::-webkit-input-placeholder {
-//   color : rgb(61, 60, 60);
-//   font-size : 1rem;
-// }
-
-// &:focus  {
-// background : rgb(255, 255, 255);
-// }
-
-// background : #e7e7e7;
-// border: none;
-// border-radius : 3px;
-// `;
-
-// const HelloSearch = () => {
-
-//   const [value, setValue] = useState('');
-//   const toggleChange = (elem) => {
-//     elem.preventDefault();
-//     setValue(elem.target.value);
-//   }
-
-//   return (
-//     <ASIDE>
-//       <Input placeholder="search"
-//         name="search"
-//         id="search"
-//         value={value}
-//         onChange={toggleChange} />
-//     </ASIDE>
-//   )
-// }

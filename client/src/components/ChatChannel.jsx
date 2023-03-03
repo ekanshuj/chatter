@@ -8,10 +8,6 @@ import { ChatChannelInput } from './';
 
 const DIVISION = styled.div`
 background: #1F2029;
-/* display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column; */
 display: grid;
 grid-template-rows: 8.1% 83.9% 8%;
 width: 100%;
@@ -29,27 +25,24 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 .user__info {
-  position: relative;
-  span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .user__toggle {
     cursor: pointer;
   }
   template {
-    display: block;
     border: 1px solid rgba(255,255,255,0.5);
     background: #000000;
     color: #CCD1D1;
     border-radius: 0px 0px 4px 4px;
-    padding: 11px 7px;
-    margin-top: 7px;
-    position: absolute;
-    right: 0%;
-    width: 278px;
+    padding: 7px;
     display: flex;
     align-items: center;
-    column-gap: 7px;
-    p {
+    justify-content: center;
+    div {
       font-size: 1.3rem;
-      padding: 3px 0px;
+      padding: 1px 5px;
     }
   }
 }
@@ -65,7 +58,7 @@ background: #1F2029;
 const MESSAGES = styled.section`
 width: 100%;
 height: inherit;
-padding: 9px 0px;
+padding: 3px 0px;
 .messages {
   width: 100%;
   height: inherit;
@@ -80,31 +73,28 @@ padding: 9px 0px;
     display: flex;
     align-items: center;
     div {
-      margin-inline: 5px;
-      font-size: 1.45rem;
+      margin: 5px 15px;
+      font-size: 1.285rem;
       padding: 3px 0px;
+      max-width: 500px;
     }
   }
   .sender {
       justify-content: flex-end;
-      margin: 5px 0px;
       div {
         background: #282A30;
         color: #CCD1D1;
-        padding-top: 3px;
-        padding-bottom: 3px;
+        padding: 3px 0px;
         padding-left: 21px;
         padding-right: 9px;
       }
     }
   .receiver {
       justify-content: flex-start;
-      margin: 5px 0px;
       div {
         background: #282A30;
         color: #CCD1D1;
-        padding-top: 3px;
-        padding-bottom: 3px;
+        padding: 3px 0px;
         padding-left: 9px;
         padding-right: 21px;
       }
@@ -112,9 +102,9 @@ padding: 9px 0px;
 }
 `;
 
-// const ChatChannel = () => {
 const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
   const messageRef = useRef();
+  const toggleRef = useRef();
   const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
   const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
   // const URL1 = 'https://chatter-backend-qu7r.onrender.com/api/v1/chats/allmsg'
@@ -123,9 +113,11 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
   const [userData, setUserData] = useState([]);
   const [activeData, setActiveData] = useState(null);
 
-  const toggleHandle = () => {
+  const toggleHandle = (e) => {
     setToggle((prev) => !prev);
-  }
+    (toggle === false) ? toggleRef.current.style.filter = 'invert(1)' : toggleRef.current.style.filter = 'invert(0)';
+  };
+  // (!e.target.parentNode.className === "user__toggle") && setToggle(false)
 
   useEffect(() => {
     const handleReceive = async () => {
@@ -174,22 +166,21 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
     <DIVISION>
       <USER>
         <div className="user__name">
-          {/* <h1>Ekanshu</h1> */}
           <h1>{currentUserChat.name.split(' ').slice(0, 1)}</h1>
         </div>
         <div className="user__info">
-          <span onClick={toggleHandle}>
-            <CgMoreVertical size={"1.75rem"} />
-          </span>
           {
-            toggle && (
+            (toggle === true) && (
               <template>
-                <p>{currentUserChat.name}</p>
+                <div>{currentUserChat.name}</div>
                 |
-                <p>@{currentUserChat.username}</p>
+                <div>@{currentUserChat.username}</div>
               </template>
             )
           }
+          <div className='user__toggle' ref={toggleRef} onClick={toggleHandle}>
+            <CgMoreVertical className='user__svg' size={"1.75rem"} />
+          </div>
         </div>
       </USER>
       <CHATCONTAINER>
