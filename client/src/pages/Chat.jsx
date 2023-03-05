@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import { ChatChannel, ChatList, PreviewChannel } from '../components';
 import { io } from 'socket.io-client';
-const client = "http://localhost:5000";
-// const client = "https://chatter-backend-qu7r.onrender.com";
+// const client = "http://localhost:5000";
+const client = "https://chatter-backend-qu7r.onrender.com";
 
 
 const SECTION = styled.section`
@@ -21,8 +21,8 @@ const SECTION = styled.section`
 const Chat = () => {
   const navigate = useNavigate();
   const socket = useRef();
-  const URL = 'http://localhost:5000/api/v1/users';
-  // const URL = 'https://chatter-backend-qu7r.onrender.com/api/v1/users';
+  // const URL = 'http://localhost:5000/api/v1/users';
+  const URL = 'https://chatter-backend-qu7r.onrender.com/api/v1/users';
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentUserData, setCurrentUserData] = useState(undefined);
   const [currentUserChat, setCurrentUserChat] = useState(undefined);
@@ -77,7 +77,6 @@ const Chat = () => {
       <div className="channel-container">
         <ChatList currentUserData={currentUserData} userDetails={getUserDetails} currentUser={currentUser} />
         {currentUserChat === undefined ? (<PreviewChannel />) : (<ChatChannel currentUserChat={currentUserChat} currentUser={currentUser} socket={socket} />)}
-        {/* <ChatChannel /> */}
       </div>
     </SECTION>
   )

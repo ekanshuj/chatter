@@ -28,8 +28,8 @@ const server = app.listen(PORT, () => { });
 
 const io = new Server(server, {
   cors: {
-    // origin: "https://chatter-ekanshuj.netlify.app",
-    origin: "http://localhost:5173",
+    origin: "https://chatter-ekanshuj.netlify.app",
+    // origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -43,11 +43,5 @@ io.on("connection", (socket) => {
   socket.on("send__messages", (data) => {
     const userSocket = users.get(data.to);
     userSocket && socket.to(userSocket).emit("receive__messages", data.message);
-  });
-
-  socket.on('disconnect', () => {
-    socket.removeAllListeners('user');
-    socket.removeAllListeners('send__messages');
-    io.removeAllListeners('connection');
   });
 });

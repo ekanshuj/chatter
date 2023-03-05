@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { SocialIcon } from 'react-social-icons';
 
@@ -73,6 +73,11 @@ const FOOTER = styled.footer`
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) navigate("/chat");
+  }, []);
+
   return (
     <MAIN>
       <HEADER>

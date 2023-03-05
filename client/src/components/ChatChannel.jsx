@@ -107,10 +107,10 @@ padding: 3px 0px;
 const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
   const messageRef = useRef();
   const toggleRef = useRef();
-  const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
-  const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
-  // const URL1 = 'https://chatter-backend-qu7r.onrender.com/api/v1/chats/allmsg'
-  // const URL2 = 'https://chatter-backend-qu7r.onrender.com/api/v1/chats/newmsg'
+  // const URL1 = 'http://localhost:5000/api/v1/chats/allmsg'
+  // const URL2 = 'http://localhost:5000/api/v1/chats/newmsg'
+  const URL1 = 'https://chatter-backend-qu7r.onrender.com/api/v1/chats/allmsg'
+  const URL2 = 'https://chatter-backend-qu7r.onrender.com/api/v1/chats/newmsg'
   const [toggle, setToggle] = useState(false);
   const [userData, setUserData] = useState([]);
   const [activeData, setActiveData] = useState(null);
@@ -194,12 +194,10 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
                 </div>
               )
             })}
-            {/* <div>hello</div> */}
           </div>
         </MESSAGES>
       </CHATCONTAINER>
       <ChatChannelInput handleSend={handleSend} />
-      {/* <ChatChannelInput /> */}
     </DIVISION>
   )
 }

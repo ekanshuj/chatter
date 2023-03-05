@@ -214,10 +214,10 @@ const ChatList = ({ currentUserData, userDetails, currentUser }) => {
   const handleLogout = () => {
     if (localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) {
       localStorage.removeItem(import.meta.env.VITE_USER_CREDENTIALS);
-      navigate("/");
+      navigate("/signin");
     }
     else {
-      navigate("/");
+      navigate("/signin");
     }
   };
 

@@ -116,7 +116,7 @@ const Signup = () => {
   }
 
   useEffect(() => {
-    (localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) && navigate("/chat");
+    if (localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) navigate("/chat");
   }, []);
 
   const TOAST = {
@@ -152,8 +152,8 @@ const Signup = () => {
     elem.preventDefault();
     if (handleValidate()) {
       const { username, name, password } = form;
-      const URL = 'http://localhost:5000/api/v1/users';
-      // const URL = 'https://chatter-backend-qu7r.onrender.com/api/v1/users';
+      // const URL = 'http://localhost:5000/api/v1/users';
+      const URL = 'https://chatter-backend-qu7r.onrender.com/api/v1/users';
 
       const { data } = await Axios.post(`${URL}/signup`, { username, name, password });
       if (data.status === true) {

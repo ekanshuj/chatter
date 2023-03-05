@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Home, Signin, Signup, Chat } from './pages';
+const Home = lazy(() => import("./pages/Home"));
+const Signin = lazy(() => import("./pages/Signin"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Chat = lazy(() => import("./pages/Chat"));
 
 const DIVISION = styled.div`
 @media(max-width: 1024px) {
@@ -56,12 +59,14 @@ const App = () => {
   return (
     <>
       <DIVISION className='app'>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/chat" element={<Chat />} />
-        </Routes>
+        <Suspense fallback={<span>Loading...</span>}>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/chat" element={<Chat />} />
+          </Routes>
+        </Suspense>
       </DIVISION>
       <SECTION>
         <div className='heading'>
