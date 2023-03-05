@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RiLogoutCircleLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
 import menu from '../assets/menu.png';
 import logout from '../assets/logout.svg';
-import { ChatSearch } from './';
 import useDebounce from '../hooks/useDebounce';
 
 
@@ -80,7 +79,15 @@ const SECTION = styled.div`
     cursor : pointer;
     margin: 0px 9px;
     z-index: 999;
-  }}
+  }
+  .input {
+    display : flex;
+    align-items : center;
+    justify-content : center;
+    flex : 1;
+    padding : 7px 3px;
+  }
+}
   .users {
   border-right: 1px solid #505055;
   width: inherit;
@@ -155,6 +162,25 @@ const SECTION = styled.div`
   }
   `;
 
+const INPUT = styled.input.attrs({
+  type: "search",
+})`
+flex : 1;
+padding : 9px;
+::placeholder,
+::-webkit-input-placeholder {
+  color : rgb(61, 60, 60);
+  font-size : 0.9rem;
+  letter-spacing : 1px;
+}
+&:focus  {
+outline: 1px solid blue;
+}
+background : #e7e7e7;
+border: none;
+border-radius : 3px;
+`;
+
 const toggle = () => {
   const helloSection = document.querySelector('.navigate');
   const blocker = document.querySelector('.blocker');
@@ -171,23 +197,17 @@ const hide = () => {
 
 const ChatList = ({ currentUserData, userDetails, currentUser }) => {
   const navigate = useNavigate();
+  const inputRef = useRef();
   const [selected, setSelected] = useState(undefined);
   const [searchedChat, setSearchedChat] = useState('');
-  const [clearSearch, setClearSearch] = useState(false);
-
-  const textVal = (text) => {
-    setSearchedChat(text);
-  };
 
   const debounceTerm = useDebounce(searchedChat, 300);
   const filteredChat = debounceTerm.length > 0 && currentUserData?.filter(currentUserData => currentUserData?.name.toLowerCase().includes(debounceTerm.toLowerCase()));
 
   const toggleSelected = (name, _id, username) => {
     setSelected(_id);
-    if (debounceTerm.length > 0) {
-      setClearSearch(true);
-    }
-    setSearchedChat('');
+    inputRef.current.value = "";
+    setSearchedChat("");
     userDetails({ name, _id, username });
   };
 
@@ -214,7 +234,14 @@ const ChatList = ({ currentUserData, userDetails, currentUser }) => {
         <SECTION>
           <div className='navigation'>
             <div className='menu' onClick={toggle}></div>
-            <ChatSearch textVal={textVal} clear={clearSearch} />
+            <div className="input">
+              <INPUT
+                ref={inputRef}
+                placeholder="Search"
+                name="search"
+                id="search"
+                onChange={(e) => setSearchedChat(e.target.value)} />
+            </div>
           </div>
           <div className='users'>
             {

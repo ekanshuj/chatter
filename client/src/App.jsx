@@ -10,9 +10,47 @@ const DIVISION = styled.div`
 }`;
 
 const SECTION = styled.section`
+height: 100vh;
+width: 100vw;
+display: grid;
+grid-template-rows: 92% 8%;
+background: #1C1C25;
+color: #fff;
+font-size: 1.71rem;
+padding: 0px 5px;
 @media(min-width: 1024px) {
   display: none;
-}`;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  div {
+    text-align: center;
+    letter-spacing: 1px;
+    strong {
+      color: orange;
+    }
+  }
+}
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  span {
+    text-align: center;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    strong {
+      text-decoration: underline;
+      color: red;
+      letter-spacing: 2.1px; 
+    }
+  }
+}
+`;
 
 const App = () => {
   return (
@@ -26,7 +64,16 @@ const App = () => {
         </Routes>
       </DIVISION>
       <SECTION>
-        <div>hello</div>
+        <div className='heading'>
+          <div>
+            Text on your computer with <strong>Chatter</strong> for web.
+          </div>
+        </div>
+        <div className='note'>
+          <span>
+            <strong>Note</strong>: Currently only available on laptop devices & above.
+          </span>
+        </div>
       </SECTION>
     </>
   )
