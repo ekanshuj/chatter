@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import menu from '../assets/menu.png';
 import logout from '../assets/logout.svg';
 import { ChatSearch } from './';
+import useDebounce from '../hooks/useDebounce';
+
 
 const ASIDE = styled.div`
 background : #1C1C25;
@@ -171,11 +173,23 @@ const ChatList = ({ currentUserData, userDetails, currentUser }) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(undefined);
   const [searchedChat, setSearchedChat] = useState('');
+  const [clearSearch, setClearSearch] = useState(false);
 
-  const toggleSelected = (i, name, _id, username) => {
-    setSelected(i);
+  const textVal = (text) => {
+    setSearchedChat(text);
+  };
+
+  const debounceTerm = useDebounce(searchedChat, 300);
+  const filteredChat = debounceTerm.length > 0 && currentUserData?.filter(currentUserData => currentUserData?.name.toLowerCase().includes(debounceTerm.toLowerCase()));
+
+  const toggleSelected = (name, _id, username) => {
+    setSelected(_id);
+    if (debounceTerm.length > 0) {
+      setClearSearch(true);
+    }
+    setSearchedChat('');
     userDetails({ name, _id, username });
-  }
+  };
 
   const handleLogout = () => {
     if (localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS)) {
@@ -186,12 +200,6 @@ const ChatList = ({ currentUserData, userDetails, currentUser }) => {
       navigate("/");
     }
   };
-
-  const textVal = (text) => {
-    setSearchedChat(text);
-  };
-  const filteredChat = searchedChat.length > 0 && currentUserData?.filter(currentUserData => currentUserData?.name.toLowerCase().includes(searchedChat.toLowerCase()));
-  console.log(filteredChat);
 
   return (
     <>
@@ -206,20 +214,32 @@ const ChatList = ({ currentUserData, userDetails, currentUser }) => {
         <SECTION>
           <div className='navigation'>
             <div className='menu' onClick={toggle}></div>
-            <ChatSearch textVal={textVal} />
+            <ChatSearch textVal={textVal} clear={clearSearch} />
           </div>
           <div className='users'>
             {
-              currentUserData?.filter(user => user.username !== (JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS))).username)?.map(({ name, _id, username }, i) => {
-                return (
-                  <div className={`column ${i === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(i, name, _id, username)}>
-                    <div className='avatar'>{name.charAt(0)}</div>
-                    <div>
-                      <h3>{name.split(" ")[0]}</h3>
+              debounceTerm.length > 0 ?
+                filteredChat?.map(({ name, _id, username }, i) => {
+                  return (
+                    <div className={`column ${_id === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(name, _id, username)}>
+                      <div className='avatar'>{name.charAt(0)}</div>
+                      <div>
+                        <h3>{name.split(" ")[0]}</h3>
+                      </div>
                     </div>
-                  </div>
-                )
-              })
+                  )
+                })
+                :
+                currentUserData?.filter(user => user.username !== (JSON.parse(localStorage.getItem(import.meta.env.VITE_USER_CREDENTIALS))).username)?.map(({ name, _id, username }, i) => {
+                  return (
+                    <div className={`column ${_id === selected ? 'selected' : ''}`} key={_id} onClick={() => toggleSelected(name, _id, username)}>
+                      <div className='avatar'>{name.charAt(0)}</div>
+                      <div>
+                        <h3>{name.split(" ")[0]}</h3>
+                      </div>
+                    </div>
+                  )
+                })
             }
           </div>
           <div className='profile'>

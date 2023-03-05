@@ -87,6 +87,7 @@ padding: 3px 0px;
         padding: 3px 0px;
         padding-left: 21px;
         padding-right: 9px;
+        border-right: 3px solid orange;
       }
     }
   .receiver {
@@ -97,6 +98,7 @@ padding: 3px 0px;
         padding: 3px 0px;
         padding-left: 9px;
         padding-right: 21px;
+        border-left: 3px solid orange;
       }
     }
 }
@@ -117,7 +119,6 @@ const ChatChannel = ({ currentUserChat, currentUser, socket }) => {
     setToggle((prev) => !prev);
     (toggle === false) ? toggleRef.current.style.filter = 'invert(1)' : toggleRef.current.style.filter = 'invert(0)';
   };
-  // (!e.target.parentNode.className === "user__toggle") && setToggle(false)
 
   useEffect(() => {
     const handleReceive = async () => {
