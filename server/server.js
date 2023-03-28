@@ -28,8 +28,8 @@ const server = app.listen(PORT, () => { });
 
 const io = new Server(server, {
   cors: {
-    origin: "https://chatter-ekanshuj.netlify.app",
-    // origin: "http://localhost:5173",
+    // origin: "https://chatter-ekanshuj.netlify.app",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true
   }

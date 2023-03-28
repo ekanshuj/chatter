@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { SocialIcon } from 'react-social-icons';
 
 import love from '../assets/love.svg';
@@ -28,18 +28,21 @@ const HEADER = styled.header`
   }}
 `;
 
-const SECTION = styled.section`
+const SECTION = styled.section`;
   max-width: 60rem;
   margin-inline: auto;
-  height: 30rem;
   background: #1C1C25;
-  margin-top: -75px;
+  margin-top: -80px;
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   border: 2px solid white;
+  img {
+    aspect-ratio: 1/1;
+    width: 29rem; 
+  }
   button {
     background: none;
     border: none;
